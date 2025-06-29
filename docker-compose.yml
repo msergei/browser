@@ -10,6 +10,8 @@ services:
     environment:
       - DISPLAY_WIDTH=1920
       - DISPLAY_HEIGHT=1080
+      - VNC_QUALITY=2
+      - VNC_COMPRESSION=9
     volumes:
       - data:/config:rw
     networks:
