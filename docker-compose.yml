@@ -1,5 +1,8 @@
 version: '3.8'
 
+volumes:
+  data:
+
 services:
   firefox:
     image: jlesage/firefox:latest
@@ -9,7 +12,7 @@ services:
       - DISPLAY_WIDTH=1920
       - DISPLAY_HEIGHT=1080
     volumes:
-      - ./firefox-config:/config:rw
+      - data:/config:rw
     networks:
       - browser-network
     shm_size: 2g
