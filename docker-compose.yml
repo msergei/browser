@@ -6,7 +6,6 @@ volumes:
 services:
   firefox:
     image: jlesage/firefox:latest
-    container_name: firefox-browser
     restart: always
     environment:
       - DISPLAY_WIDTH=1920
@@ -19,11 +18,7 @@ services:
 
   cloudflared:
     image: cloudflare/cloudflared:latest
-    container_name: cloudflare-tunnel
-    restart: always
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
-    environment:
-      - CLOUDFLARE_TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
     depends_on:
       - firefox
     networks:
