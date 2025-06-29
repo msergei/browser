@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  firefox:
+    image: jlesage/firefox:latest
+    container_name: firefox-browser
+    restart: always
+    environment:
+      - DISPLAY_WIDTH=1920
+      - DISPLAY_HEIGHT=1080
+    volumes:
+      - ./firefox-config:/config:rw
+    networks:
+      - browser-network
+    shm_size: 2g
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflare-tunnel
+    restart: always
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    environment:
+      - CLOUDFLARE_TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - firefox
+    networks:
+      - browser-network
+
+networks:
+  browser-network:
+    driver: bridge
