@@ -5,18 +5,24 @@ volumes:
 
 services:
   firefox:
-    image: jlesage/firefox:latest
+    image: lscr.io/linuxserver/firefox:latest
     restart: always
     environment:
-      - DISPLAY_WIDTH=1920
-      - DISPLAY_HEIGHT=1080
-      - VNC_QUALITY=2
-      - VNC_COMPRESSION=9
+      - PUID=1000
+      - PGID=1000
+      - DISABLE_IPV6=true
+    ports:
+      - "3000:3000"
+      - "3001:3001"
     volumes:
       - data:/config:rw
+    shm_size: "2gb"
     networks:
       - browser-network
-    shm_size: 2g
+    devices:
+      - /dev/dri:/dev/dri
+    security_opt:
+      - seccomp:unconfined
 
   cloudflared:
     image: cloudflare/cloudflared:latest
